@@ -38,4 +38,24 @@ Bugs found:
 - AI in designing/understanding tests:
   AI suggested converting old single-value asserts (`result == "Win"`) to tuple checks (`outcome, message = ...`). That helped catch the exact bug and validate text in addition to outcome state.
 
+## 4. Final reflection
+ - I learned that Streamlit reruns the script on every interaction, so shared state must be managed explicitly in `st.session_state` to avoid reinitializing critical values (like a secret number). This was key to fixing the commitment issue.
+
+- The satisfying moment was when unit tests and manual play both confirmed the hints aligned with guess comparisons and the secret number remained fixed across submit attempts.
+
+- To improve the code, I could add input validation to only accept integers and provide user-friendly error messages.
+
+## 5. AI suggestion review
+
+- Rejected AI suggestion:
+  - Keep the fallback path in `check_guess` that converts secret/guess to strings when `TypeError` occurs.
+
+- Why rejected:
+  - The fallback masked the underlying bug and preserved nondeterministic behavior.
+  - It created inconsistent string vs numeric comparisons and made logic harder to reason about.
+
+- What was used instead:
+  - I enforced the integer numeric logic and use `st.session_state` cleanly for state persistence.
+  - I confirmed with unit tests and manual play that behavior is deterministic and correct.
+
 
